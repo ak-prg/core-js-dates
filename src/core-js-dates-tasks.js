@@ -71,13 +71,10 @@ function getDayName(date) {
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
 function getNextFriday(date) {
-  let current = new Date(
-    `${date.getUTCFullYear()}, ${date.getUTCMonth() + 1}, ${date.getUTCDate() + 1} UTC`
-  );
+  const current = new Date(date);
+  current.setUTCDate(current.getUTCDate() + 1);
   while (current.getUTCDay() !== 5) {
-    current = new Date(
-      `${current.getUTCFullYear()}, ${current.getUTCMonth() + 1}, ${current.getUTCDate() + 1} UTC`
-    );
+    current.setUTCDate(current.getUTCDate() + 1);
   }
   return current;
 }
@@ -215,8 +212,23 @@ function getWeekNumberByDate(date) {
  * Date(2024, 0, 13) => Date(2024, 8, 13)
  * Date(2023, 1, 1) => Date(2023, 9, 13)
  */
-function getNextFridayThe13th(/* date */) {
-  throw new Error('Not implemented');
+function getNextFridayThe13th(date) {
+  function getNextLocalFriday(fri) {
+    const current = new Date(fri);
+    current.setDate(current.getDate() + 1);
+    current.setHours(0, 0, 0, 0);
+    while (current.getDay() !== 5) {
+      current.setDate(current.getDate() + 1);
+      current.setHours(0, 0, 0, 0);
+    }
+    return current;
+  }
+
+  let nextFri = getNextLocalFriday(date);
+  while (nextFri.getUTCDate() !== 13) {
+    nextFri = getNextLocalFriday(nextFri);
+  }
+  return nextFri;
 }
 
 /**
