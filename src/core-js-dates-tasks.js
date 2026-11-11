@@ -70,8 +70,16 @@ function getDayName(date) {
  * Date('2024-02-13T00:00:00Z') => Date('2024-02-16T00:00:00Z')
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
-function getNextFriday(/* date */) {
-  throw new Error('Not implemented');
+function getNextFriday(date) {
+  let current = new Date(
+    `${date.getUTCFullYear()}, ${date.getUTCMonth() + 1}, ${date.getUTCDate() + 1} UTC`
+  );
+  while (current.getUTCDay() !== 5) {
+    current = new Date(
+      `${current.getUTCFullYear()}, ${current.getUTCMonth() + 1}, ${current.getUTCDate() + 1} UTC`
+    );
+  }
+  return current;
 }
 
 /**
