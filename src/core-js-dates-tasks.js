@@ -93,8 +93,12 @@ function getNextFriday(date) {
  * 1, 2024 => 31
  * 2, 2024 => 29
  */
-function getCountDaysInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountDaysInMonth(month, year) {
+  const numberDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  return month === 2 && isLeap
+    ? numberDays[month - 1] + 1
+    : numberDays[month - 1];
 }
 
 /**
@@ -115,7 +119,7 @@ function getCountDaysOnPeriod(/* dateStart, dateEnd */) {
 /**
  * Returns true if a given date is within a specified range, including both the start and end dates.
  *
- * @typedef {{
+ * @typedef {{numberDays[month - 1]
  * start: string, // The start date in ISO 8601 format (e.g., 'YYYY-MM-DD').
  * end: string    // The end date in ISO 8601 format.
  * }} DatePeriod
